@@ -12,6 +12,7 @@ kills = 0
 round_ended = True
 
 # Game functions
+# Move character acording to mouse movement
 def motion(event):
     global x
     global y
@@ -19,6 +20,7 @@ def motion(event):
 
     print('{}, {}'.format(x, y))
 
+# Creates projectile from player going to the direction the player is facing
 def fire(x, y):
     bullet = turtle.Turtle()
     bullet.hideturtle()
@@ -28,8 +30,6 @@ def fire(x, y):
 
     angle = math.atan2(y - falcon.ycor(), x - falcon.xcor())
     angle_degrees = math.degrees(angle)
-
-    # Calculate the position of the bullet on top of the player
     
     bullet.goto(falcon.xcor(), falcon.ycor())
     bullet.setheading(angle_degrees)
@@ -38,6 +38,7 @@ def fire(x, y):
     bullet.forward(10)
     bullets.append(bullet)
     
+# Spawns enemy     
 def spawn_enemy():
     enemy = turtle.Turtle()
     enemy.shape('turtle')
@@ -47,18 +48,22 @@ def spawn_enemy():
     enemy.goto(width / 2, random.randint(-height // 2, height // 2))
     enemies.append(enemy)
 
+# Handels enemy death
 def kill_enemy(enemy):
     global enemy_deaths
     enemy_deaths += 1
     enemy.hideturtle()
     enemy.killed = True    
     
+# Moves bullet    
 def move_bullet(bullet):
     bullet.forward(20)  
 
+# Moves enemy 
 def move_enemy(enemy):
     enemy.setx(enemy.xcor() - 5)  
 
+# Checks if bullet collides with enemy
 def is_collision(t1, t2):
     distance = t1.distance(t2)
     return distance < 20  
@@ -89,7 +94,6 @@ kill_counter.hideturtle()
 kill_counter.goto(-width / 2 + 50, height / 2 - 50)  # Adjust the position of the counter
 
 # Setup round counter
-
 round_counter_display = turtle.Turtle()
 round_counter_display.color('white')
 round_counter_display.penup()
@@ -174,4 +178,5 @@ while True:
     round_counter_display.clear()
     round_counter_display.write(f"Round: {round_counter}", align='left', font=('Arial', 20, 'normal'))
 
+    # Updates window
     wn.update()
